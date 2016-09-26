@@ -1,0 +1,39 @@
+{
+  "name": "notes",
+  "version": "1.0.0",
+  "author": "Frantisek Ferko",
+  "description": "",
+  "directories": {
+    "root": "/",
+    "src": "src/",
+    "dist": "dist/",
+    "css": "src/design/css/",
+    "app": "src/app/",
+    "design": "src/design/"
+  },
+  "appFiles": {
+    "compressed": "app.min.js",
+    "uncompressed": "app.js"
+  },
+  "scripts": {
+    "start": "gulp"
+  },
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-uglify": "latest",
+    "gulp-concat": "latest",
+    "gulp-compass": "latest",
+    "gulp-clean": "latest",
+    "gulp-copy": "latest",
+    "gulp-watch": "latest",
+    "gulp-connect": "latest",
+    "gulp-sourcemaps": "latest",
+    "gulp-rename": "latest",
+    "gulp-ng-annotate": "latest"
+  },
+  "dependencies": {
+    "angular": "^1.5.8",
+    "angular-ui-router": "latest"
+  },
+  "license": "GFDL-1.3"
+}

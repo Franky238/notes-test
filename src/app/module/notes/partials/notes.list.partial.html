@@ -1,0 +1,7 @@
+<div ng-controller="NotesListController as list">
+    <ul>
+        <li ng-repeat="note in notes">
+            <a ui-sref="detail({id: note.id})">{{ note.title }}</a>
+        </li>
+    </ul>
+</div>
