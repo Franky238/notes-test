@@ -1,0 +1,50 @@
+<div class="detail" ng-controller="NotesNoteController as noteCtrl">
+    <h1>Create a new note</h1>
+
+    <div class="success" ng-show="newNote.successSend">
+        New note was created! Thank you!
+    </div>
+    <div class="error" ng-show="newNote.errorSend">
+        Sorry but we can not create a note due to some problems. Try again later.
+    </div>
+
+    <form name="newNoteForm" ng-submit="createNote()" novalidate>
+        <div class="form-control">
+            <label>
+                Title
+                <input type="text"
+                       ng-model="newNote.title"
+                       ng-trim="true"
+                       required
+                       name="noteTitle"
+                       placeholder="Title for note is..."
+                />
+            </label>
+
+            <button type="submit" class="btn">Submit</button>
+        </div>
+        <div class="error" ng-show="newNoteForm.$submitted || newNoteForm.noteTitle.$touched">
+            <span ng-show="newNoteForm.noteTitle.$error.required">You forgot title</span>
+        </div>
+
+    </form>
+</div>
+
+<style>
+    input.ng-invalid.ng-touched {
+        background-color: #ffa698;
+        border-color: #ee203d;
+    }
+
+    input.ng-valid.ng-touched {
+        background-color: #78fa8a;
+        border-color: #1eab2f;
+    }
+    .error {
+        color: #ee203d;
+    }
+
+    .success {
+        color: #1eab2f;
+    }
+</style>

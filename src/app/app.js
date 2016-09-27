@@ -24,8 +24,12 @@
                 templateUrl: 'src/app/module/notes/partials/notes.list.partial.html'
             })
             .state('detail', {
-                url: '/notes/:id',
+                url: '/notes/{id:int}',
                 templateUrl: 'src/app/module/notes/partials/notes.detail.partial.html'
+            })
+            .state('create', {
+                url: '^/notes/create',
+                templateUrl: 'src/app/module/notes/partials/notes.create.partial.html'
             })
         ;
 

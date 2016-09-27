@@ -24,8 +24,12 @@
                 templateUrl: 'src/app/module/notes/partials/notes.list.partial.html'
             })
             .state('detail', {
-                url: '/notes/:id',
+                url: '/notes/{id:int}',
                 templateUrl: 'src/app/module/notes/partials/notes.detail.partial.html'
+            })
+            .state('create', {
+                url: '^/notes/create',
+                templateUrl: 'src/app/module/notes/partials/notes.create.partial.html'
             })
         ;
 
@@ -50,21 +54,32 @@
     'use strict';
 
     angular.module('NotesModule')
-        .controller('NotesDetailController', ["NotesNoteModel", "$scope", "$stateParams", function (NotesNoteModel, $scope, $stateParams) {
-            $scope.note = {};
-
-            NotesNoteModel.getDetail($stateParams.id, function (data) {
-                $scope.note = data;
-            })
-
-        }]);
-})(angular);
-(function (angular) {
-    'use strict';
-
-    angular.module('NotesModule')
-        .controller('NotesListController', ["NotesNoteModel", "$scope", function (NotesNoteModel, $scope) {
+        .controller('NotesNoteController', ["NotesNoteModel", "$scope", "$stateParams", function (NotesNoteModel, $scope, $stateParams) {
             $scope.notes = [];
+            $scope.note = {};
+            $scope.newNote = {};
+
+            $scope.createNote = function () {
+                $scope.newNote.errorSend = false;
+                $scope.newNote.successSend = false;
+                var title = $scope.newNote.title;
+
+                if (angular.isUndefined(title) || title.length === 0) {
+                    return;
+                }
+
+                NotesNoteModel.createNote(title, function () {
+                    $scope.newNote.successSend = true;
+                }, function () {
+                    $scope.newNote.errorSend = true;
+                });
+            };
+
+            $scope.getDetail = function () {
+                return NotesNoteModel.getDetail($stateParams.id, function (data) {
+                    return $scope.note = data;
+                });
+            };
 
             function init() {
                 NotesNoteModel.getList(function (data) {
@@ -93,9 +108,22 @@
                 });
             }
 
+            function createNote(title, success, error) {
+                var options = {
+                    title: title
+                };
+
+                NotesNoteService.createNote(options).then(function () {
+                    return typeof  success === 'function' && success();
+                }, function () {
+                    return typeof  error === 'function' && error();
+                });
+            }
+
             return {
                 getList: getList,
-                getDetail: getDetail
+                getDetail: getDetail,
+                createNote: createNote
             }
         }]);
 })(angular);
@@ -113,9 +141,16 @@
                 return $http.get(NotesConfig.URL + '/notes/' + id);
             }
 
+            function createNote(payload, options) {
+                var options = options || {headers: {'Content-Type': 'application/json'}};
+
+                return $http.post(NotesConfig.URL + '/notes', payload, options);
+            }
+
             return {
                 getList: getList,
-                getDetail: getDetail
+                getDetail: getDetail,
+                createNote: createNote
             }
         }]);
 })(angular);

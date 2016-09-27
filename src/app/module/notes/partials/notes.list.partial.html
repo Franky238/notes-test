@@ -1,7 +1,9 @@
-<div ng-controller="NotesListController as list">
+<div ng-controller="NotesNoteController as noteCtrl">
     <ul>
         <li ng-repeat="note in notes">
             <a ui-sref="detail({id: note.id})">{{ note.title }}</a>
         </li>
     </ul>
+
+    <a ui-sref="create()">Create note</a>
 </div>
