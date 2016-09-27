@@ -2,12 +2,11 @@
     'use strict';
 
     angular.module('NotesModule')
-        .controller('NotesListController', function (NotesDetailModel, NotesListModel, $scope) {
+        .controller('NotesListController', function (NotesNoteModel, $scope) {
             $scope.notes = [];
-            $scope.note = {};
 
             function init() {
-                NotesListModel.get(function (data) {
+                NotesNoteModel.getList(function (data) {
                     $scope.notes =  data;
                 });
             }

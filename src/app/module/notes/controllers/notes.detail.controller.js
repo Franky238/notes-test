@@ -2,10 +2,10 @@
     'use strict';
 
     angular.module('NotesModule')
-        .controller('NotesDetailController', function (NotesDetailModel, $scope, $stateParams) {
+        .controller('NotesDetailController', function (NotesNoteModel, $scope, $stateParams) {
             $scope.note = {};
 
-            NotesDetailModel.get($stateParams.id, function (data) {
+            NotesNoteModel.getDetail($stateParams.id, function (data) {
                 $scope.note = data;
             })
 

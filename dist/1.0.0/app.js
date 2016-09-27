@@ -41,10 +41,19 @@
     'use strict';
 
     angular.module('NotesModule')
-        .controller('NotesDetailController', ["NotesDetailModel", "$scope", "$stateParams", function (NotesDetailModel, $scope, $stateParams) {
+        .constant('NotesConfig', {
+           URL: 'https://private-anon-0ce9bf9b39-note10.apiary-mock.com'
+        });
+
+})(angular);
+(function (angular) {
+    'use strict';
+
+    angular.module('NotesModule')
+        .controller('NotesDetailController', ["NotesNoteModel", "$scope", "$stateParams", function (NotesNoteModel, $scope, $stateParams) {
             $scope.note = {};
 
-            NotesDetailModel.get($stateParams.id, function (data) {
+            NotesNoteModel.getDetail($stateParams.id, function (data) {
                 $scope.note = data;
             })
 
@@ -54,12 +63,11 @@
     'use strict';
 
     angular.module('NotesModule')
-        .controller('NotesListController', ["NotesDetailModel", "NotesListModel", "$scope", function (NotesDetailModel, NotesListModel, $scope) {
+        .controller('NotesListController', ["NotesNoteModel", "$scope", function (NotesNoteModel, $scope) {
             $scope.notes = [];
-            $scope.note = {};
 
             function init() {
-                NotesListModel.get(function (data) {
+                NotesNoteModel.getList(function (data) {
                     $scope.notes =  data;
                 });
             }
@@ -71,56 +79,22 @@
     'use strict';
 
     angular.module('NotesModule')
-        .constant('NotesConfig', {
-           URL: 'https://private-anon-0ce9bf9b39-note10.apiary-mock.com'
-        });
-
-})(angular);
-(function (angular) {
-    'use strict';
-
-    angular.module('NotesModule')
-        .factory('NotesDetailModel', ["NotesDetailService", function (NotesDetailService) {
-
-            function getDetail(id, callback) {
-                return NotesDetailService.getDetail(id).then(function (result) {
-                    callback(result.data);
-                });
-            }
-
-            return {
-                get: getDetail
-            }
-        }]);
-})(angular);
-(function (angular) {
-    'use strict';
-
-    angular.module('NotesModule')
-        .factory('NotesListModel', ["NotesListService", function (NotesListService) {
+        .factory('NotesNoteModel', ["NotesNoteService", function (NotesNoteService) {
 
             function getList(callback) {
-                return NotesListService.getList().then(function (result) {
+                return NotesNoteService.getList().then(function (result) {
+                    callback(result.data);
+                });
+            }
+
+            function getDetail(id, callback) {
+                return NotesNoteService.getDetail(id).then(function (result) {
                     callback(result.data);
                 });
             }
 
             return {
-                get: getList
-            }
-        }]);
-})(angular);
-(function (angular) {
-    'use strict';
-
-    angular.module('NotesModule')
-        .factory('NotesDetailService', ["NotesConfig", "$http", function (NotesConfig, $http) {
-
-            function getDetail(id) {
-                return $http.get(NotesConfig.URL + '/notes/' + id);
-            }
-
-            return {
+                getList: getList,
                 getDetail: getDetail
             }
         }]);
@@ -129,14 +103,19 @@
     'use strict';
 
     angular.module('NotesModule')
-        .factory('NotesListService', ["NotesConfig", "$http", function (NotesConfig, $http) {
+        .factory('NotesNoteService', ["NotesConfig", "$http", function (NotesConfig, $http) {
 
             function getList() {
                 return $http.get(NotesConfig.URL + '/notes');
             }
 
+            function getDetail(id) {
+                return $http.get(NotesConfig.URL + '/notes/' + id);
+            }
+
             return {
-                getList: getList
+                getList: getList,
+                getDetail: getDetail
             }
         }]);
 })(angular);
