@@ -17,3 +17,5 @@ Application host
 ````
 localhost:9000
 ````
+
+For debugging use `app.js` file in `dist/{version}/` and for production use `app.min.js` in same folder
