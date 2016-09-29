@@ -1,4 +1,7 @@
 <div class="detail" ng-controller="NotesNoteController as noteCtrl" ng-init="getDetail()">
+    <div class="error" ng-show="note.errorSend">
+        Sorry but we can not delete a note due to some problems. Try again later.
+    </div>
     <ul>
         <li>
             {{ note.id }}
@@ -7,4 +10,7 @@
             {{ note.title }}
         </li>
     </ul>
+
+    <a ui-sref="update({id: note.id})">Update note</a>
+    <button type="button" ng-click="deleteNote(note.id)">Delete note</button>
 </div>

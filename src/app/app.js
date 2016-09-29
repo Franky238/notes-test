@@ -9,10 +9,11 @@
     var app = angular.module('app', modules);
 
     app.config(function ($stateProvider, $urlRouterProvider) {
+
         $urlRouterProvider.otherwise(function($injector, $location){
-            $injector.invoke(['$state', function($state) {
+            $injector.invoke(function($state) {
                 $state.go('home');
-            }]);
+            });
         });
 
         $stateProvider
@@ -30,6 +31,10 @@
             .state('create', {
                 url: '^/notes/create',
                 templateUrl: 'src/app/module/notes/partials/notes.create.partial.html'
+            })
+            .state('update', {
+                url: '^/notes/update/{id:int}',
+                templateUrl: 'src/app/module/notes/partials/notes.update.partial.html'
             })
         ;
 
